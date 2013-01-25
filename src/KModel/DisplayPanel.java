@@ -114,10 +114,11 @@ class DisplayPanel extends JPanel implements Observer {
         g2D.fill(r);
 */        
         // Make atoms move and then paint them on the component.
+        //model.iterate();
         for (Particle atom : model.getAtoms()) {
         	//System.out.println(atom);
         	// Make atom move.
-            model.iterate(atom);
+            //model.iterate(atom);
             // Get position of atom
             Shape shape = model.getShape(atom);
             // Paint atom
@@ -164,8 +165,10 @@ class DisplayPanel extends JPanel implements Observer {
             System.out.println("Using gradient");
             useGradient(true);
         }
-        else if(o1 == null){
+        //if the model changes do the following.
+        else if("changed".equals(o1)){
             repaint();
         }
+        
     }
 }
