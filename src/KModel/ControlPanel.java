@@ -46,6 +46,8 @@ class ControlPanel extends JPanel
     	// Store the model and view.
         subject.addObserver(model);
         subject.addObserver(view);
+        model.addObserver(view);
+        model.addObserver(this);
         this.view = view;
         this.model = model;
         histogram = new Histogram(model.getAtoms());
@@ -149,28 +151,9 @@ class ControlPanel extends JPanel
         
         // If timer event is fired, do the following... 
         if (source == timer && cmd == null) {
-        
-        	// Repaint the view. PaintComponent is called in the view
-        	// which makes the atoms move, collide with each other, 
-        	// and the walls.
                 passAlong(cmd);
-        	//view.repaint();
-        	// Display the time required to repaint in milliseconds
-           long pt = view.getPaintTime();
-           if (pt < 2) paintLabel.setText("Paint: ~1");
-           else paintLabel.setText("Paint: " + view.getPaintTime());
-           // Display some model statistics
-           countLabel.setText("Atoms: " + model.getAtoms().size());
-           collisionLabel.setText("Collide: " + pf.format(model.getCollisionRate()));
-           histLabel.setText("Velocity: " + df.format(histogram.getAverage()));
-           histogram.repaint();
-           
-           // Handle button events
-           
-           // If run button is pressed, toggle the timer
         } else if ("run".equals(cmd)) {
            toggle();
-           
         }else{
             // If reset button is pressed, restart the animation
             if("reset".equals(cmd))
@@ -200,6 +183,16 @@ class ControlPanel extends JPanel
 
     @Override
     public void update(Observable o, Object o1) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        //if the model changes do the following.
+        if("changed".equals(o1)){
+           long pt = view.getPaintTime();
+           if (pt < 2) paintLabel.setText("Paint: ~1");
+           else paintLabel.setText("Paint: " + view.getPaintTime());
+           // Display some model statistics
+           countLabel.setText("Atoms: " + model.getAtoms().size());
+           collisionLabel.setText("Collide: " + pf.format(model.getCollisionRate()));
+           histLabel.setText("Velocity: " + df.format(histogram.getAverage()));
+           histogram.repaint();
+        }
     }
 }
