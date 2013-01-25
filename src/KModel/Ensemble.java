@@ -16,7 +16,7 @@ import java.util.Random;
  * 
  * @author John B. Matthews
  */
-class Ensemble implements Observer {
+class Ensemble extends Observable implements Observer {
 
     private static final Random random = new Random();
     private static final Color[] colors = GradientImage.createColorArray();
