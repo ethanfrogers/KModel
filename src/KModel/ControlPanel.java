@@ -3,6 +3,8 @@ package KModel;
 
 import java.awt.event.*;
 import java.text.DecimalFormat;
+import java.util.Observable;
+import java.util.Observer;
 import javax.swing.*;
 import javax.swing.event.*;
 
@@ -12,7 +14,7 @@ import javax.swing.event.*;
  * @author John B. Matthews
  */
 class ControlPanel extends JPanel
-    implements ActionListener, ChangeListener {
+    implements ActionListener, ChangeListener, Observer {
 
     private static final int RATE = 25; // 25 Hz
     private static final int STRUT = 8;
@@ -194,5 +196,10 @@ class ControlPanel extends JPanel
             int rate = ((Number) spinner.getValue()).intValue();
             timer.setDelay(1000 / rate);
         }
+    }
+
+    @Override
+    public void update(Observable o, Object o1) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }
