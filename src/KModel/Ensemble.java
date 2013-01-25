@@ -39,6 +39,7 @@ class Ensemble extends Observable implements Observer {
     private Vector n  = new Vector(); // normal vector
     private Vector un = new Vector(); // unit normal
     private Vector ut = new Vector(); // unit tangent
+    String changed = "changed";
 
     /** Construct a container of atoms. */
     public Ensemble() {
@@ -55,7 +56,8 @@ class Ensemble extends Observable implements Observer {
     }
 
     /** Advance each atom. */
-    public void iterate(Particle atom1) {
+    public void iterate() {
+       for(Particle atom1: this.atoms){
         iterations++;
         p1 = atom1.getPosition(p1);
         v1 = atom1.getVelocity(v1);
@@ -68,6 +70,9 @@ class Ensemble extends Observable implements Observer {
         }
         collideWalls(atom1);
 */        
+       }
+       this.setChanged();
+       this.notifyObservers(changed);
     }
 
     /** Get an atom's shape. */
@@ -237,6 +242,9 @@ class Ensemble extends Observable implements Observer {
         }
         else if("minus".equals(o1)){
             removeAtoms();
+        }
+        else if(o1 == null){
+            iterate();
         }
     }
 }
